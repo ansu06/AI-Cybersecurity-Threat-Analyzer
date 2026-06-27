@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL — Threat Counter</title>
+  <meta name="description" content="Real-time cyber threat monitoring dashboard with threat stream analysis, forensic investigation, and attack counter tools." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="threat-counter.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React 18 (CDN) -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- 1. Data layer (plain JS — no JSX needed) -->
+  <script src="js/threat-counter-data.js"></script>
+
+  <!--
+    2 & 3. JSX files — loaded sequentially via fetch + Babel.transform
+    Uses the classic JSX transform to emit React.createElement() calls
+    instead of import statements that break outside ES modules.
+  -->
+  <script>
+    (async function loadApp() {
+      const jsxFiles = [
+        'js/threat-counter-components.jsx',
+        'js/ThreatCounter.jsx',
+      ];
+
+      for (const file of jsxFiles) {
+        try {
+          const resp = await fetch(file);
+          if (!resp.ok) throw new Error('HTTP ' + resp.status + ' loading ' + file);
+          const code = await resp.text();
+
+          // Use @babel/plugin-transform-react-jsx with classic runtime
+          // This ensures React.createElement is used instead of jsx() imports
+          const compiled = Babel.transform(code, {
+            plugins: [
+              ['transform-react-jsx', { runtime: 'classic' }]
+            ],
+            filename: file,
+          }).code;
+
+          // Wrap in a function to avoid 'already declared' errors with const/let
+          const wrapper = '(function(){\n' + compiled + '\n})();';
+          const script = document.createElement('script');
+          script.textContent = wrapper;
+          document.body.appendChild(script);
+        } catch (err) {
+          console.error('[ThreatCounter] Failed to load ' + file + ':', err);
+          document.getElementById('root').innerHTML =
+            '<div style="color:#EF4444;padding:40px;font-family:monospace">' +
+            '<h2>Load Error</h2><p>' + err.message + '</p></div>';
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════
+   SENTINEL — Threat Counter
+   Global Stylesheet
+   ═══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design Tokens ── */
+:root {
+  --bg-deep: #05060F;
+  --bg-primary: #0A0D1A;
+  --bg-card: #0E1225;
+  --bg-card-alt: #121733;
+  --border: #1A1F3A;
+  --border-glow: #2D1B69;
+  --purple-primary: #8B5CF6;
+  --purple-light: #A78BFA;
+  --purple-dark: #6D28D9;
+  --purple-deep: #4C1D95;
+  --cyan: #22D3EE;
+  --cyan-dark: #0891B2;
+  --magenta: #EC4899;
+  --magenta-dark: #BE185D;
+  --red: #EF4444;
+  --orange: #F59E0B;
+  --green: #10B981;
+  --text-primary: #E8E4F0;
+  --text-secondary: #8B8AA0;
+  --text-muted: #5C5A72;
+}
+
+/* ── Base ── */
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+select option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--purple-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--purple-primary); }
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scanLine {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(139,92,246,0.15), 0 0 30px rgba(139,92,246,0.05); }
+  50%      { box-shadow: 0 0 25px rgba(139,92,246,0.3),  0 0 50px rgba(139,92,246,0.1); }
+}
+
+@keyframes diamondRotate {
+  0%   { transform: rotate(45deg) scale(1); }
+  50%  { transform: rotate(45deg) scale(1.05); }
+  100% { transform: rotate(45deg) scale(1); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(139,92,246,0.2); }
+  50%      { border-color: rgba(139,92,246,0.5); }
+}
+
+@keyframes dataFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes threatBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
